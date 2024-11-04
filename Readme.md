@@ -1,11 +1,11 @@
 # Learning Sequence
 
-# ThreadCreation
-# ThreadLifeCycle
-# ThreadMethods
-# UserVSDaemon_Thread
-# Synchronization
-# Lock
-# WaitANDNotify
+## ThreadCreation
+## ThreadLifeCycle
+## ThreadMethods
+## UserVSDaemon_Thread
+## Synchronization
+## Lock
+## WaitANDNotify
 
-# VolatileVsAtomic
+## VolatileVsAtomic
