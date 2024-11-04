@@ -4,35 +4,19 @@ class PizzaShop {
     private boolean pizzaReady = false;
     private String pizza;
 
-    // BAD Implementation (with if)
-    public synchronized String servePizzaBad() {
-        if (!pizzaReady) {  // Using if - problematic!
+    public synchronized String servePizza() {  // Only one thread can enter at a time
+        while (!pizzaReady) {
             try {
                 System.out.println(Thread.currentThread().getName() +
                         ": Waiting for pizza");
-                wait();
+                wait();  // Release lock and wait
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
+        // Only one thread can execute this at a time
         pizzaReady = false;
-        return "Served " + pizza;
-    }
-
-    // GOOD Implementation (with while)
-    public synchronized String servePizzaGood() {
-        while (!pizzaReady) {  // Using while - safe!
-            try {
-                System.out.println(Thread.currentThread().getName() +
-                        ": Waiting for pizza");
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        pizzaReady = false;
+        System.out.println(Thread.currentThread().getName()+": Taking pizza");
         return "Served " + pizza;
     }
 
@@ -49,14 +33,12 @@ public class WaitNotifyExample {
 
         // Create multiple waiter threads
         Thread waiter1 = new Thread(() -> {
-            String result = shop.servePizzaGood();  // or servePizzaGood()
-//            String result = shop.servePizzaBad();  // or servePizzaGood()
+            String result = shop.servePizza();
             System.out.println("Waiter 1: " + result);
         }, "Waiter-1");
 
         Thread waiter2 = new Thread(() -> {
-            String result = shop.servePizzaGood();  // or servePizzaGood()
-//            String result = shop.servePizzaBad();  // or servePizzaGood()
+            String result = shop.servePizza();  // or servePizzaGood()
             System.out.println("Waiter 2: " + result);
         }, "Waiter-2");
 
@@ -77,3 +59,33 @@ public class WaitNotifyExample {
         }, "Chef").start();
     }
 }
+
+// VISUAL FLOW
+//    Initial State:
+//        Waiter-1: Waiting (released lock)
+//        Waiter-2: Waiting (released lock)
+//
+//        After notifyAll():
+//        1. All waiters wake up
+//        2. They compete for lock (because method is synchronized) means whichever thread accessed servePizza() method first will access it after waking up first and so on.
+//
+//        First Winner (let's say Waiter-1):
+//        - Gets lock
+//        - Sees pizzaReady = true
+//        - Takes pizza
+//        - Sets pizzaReady = false
+//        - Exits method
+//        - Releases lock
+//
+//        Second Entry (let's say Waiter-2):
+//        - Gets lock
+//        - Sees pizzaReady = false (because Waiter-1 changed it)
+//        - Goes back to waiting
+//        - Releases lock
+
+
+////    THE KEY POINTS ARE:
+//   synchronized means only one thread can execute the method at a time
+//   notifyAll() wakes up all waiting threads
+//   Woken threads must compete for the lock
+//   Only one thread can have the lock at any time
