@@ -26,6 +26,7 @@ public class ExecutorUsage {
 
         ExecutorService ec = Executors.newFixedThreadPool(10);
 
+
         long startTime = System.currentTimeMillis();
         System.out.println(startTime); // Time from "1 Jan 1970" to Now in Millisecond
 
@@ -38,7 +39,8 @@ public class ExecutorUsage {
             });
         }
 
-        ec.shutdown();
+        ec.shutdown(); // It Stops accepting new tasks, Allows previously submitted tasks to complete, After All tasks completes then executor terminated.
+
         try {
 //            ec.awaitTermination(10, TimeUnit.SECONDS);
             while(!ec.awaitTermination(100, TimeUnit.MILLISECONDS)){ // If All Tasks are completed within "100" millisecond then it will return True.
