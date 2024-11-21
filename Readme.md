@@ -8,5 +8,4 @@
 ## Lock
 ## WaitANDNotify
 ## ExecutorsFramework
-
 ## VolatileVsAtomic

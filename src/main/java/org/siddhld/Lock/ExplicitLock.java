@@ -19,7 +19,7 @@ class Bank {
                     try {
                         Thread.sleep(3000);
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        Thread.currentThread().interrupt();
                     } finally {
                         lock.unlock();
                     }
@@ -32,7 +32,8 @@ class Bank {
                 System.out.println(Thread.currentThread().getName() + " Failed to withdraw, Another thread is using the Resource" + amount);
             }
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
         } finally {
             lock.unlock();
         }

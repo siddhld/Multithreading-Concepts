@@ -13,6 +13,7 @@ public class ExecutorUsage {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
+            Thread.currentThread().interrupt();
         }
 
         for (int i = 1; i <= num; i++) {
@@ -47,7 +48,7 @@ public class ExecutorUsage {
                 // Wait till all Task's executions are completed.
             }
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
         }
         System.out.println("Time Taken: " + (System.currentTimeMillis() - startTime));
     }
