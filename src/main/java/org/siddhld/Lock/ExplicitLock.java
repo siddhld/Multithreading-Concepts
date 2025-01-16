@@ -11,7 +11,6 @@ class Bank {
 
     public void withdraw(int amount) {
 
-        lock.lock();
         try {
             if (lock.tryLock(1000, TimeUnit.MILLISECONDS)) {
                 if (amount <= balance) {
@@ -34,9 +33,7 @@ class Bank {
         } catch (InterruptedException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();
-        } finally {
-            lock.unlock();
-        }
+        } 
         System.out.println(Thread.currentThread().getName());
     }
 
