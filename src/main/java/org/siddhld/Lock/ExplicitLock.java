@@ -62,7 +62,7 @@ public class ExplicitLock {
     }
 }
 
-// tryLock() -> It means "Turant check kro agar lock nai hai to "true" return kro warna "false"".
+// tryLock() -> It means "Turant check kro agar lock nai hai matlab dusra thread acquire nai kiya hai toh "true" return kro warna "false"".
 // tryLock(1000, TimeUnit.MILLISECOND) -> It means "Try kro diye gye samay tak fir niklo".
 // lock() -> It means "Try karte raho jab tak lock free(Unlock) na ho jaye".
 // unlock() -> It means "Yeh "unlock" kar deta hai taki dusra thread uss resource ko use kar paye".
